@@ -8,12 +8,22 @@
 import Foundation
 
 class Node<T> {
-    let value: T
+    var value: T
     
-    var predecessorNode: Node<T>?
+    weak var predecessorNode: Node<T>?
     var nextNode: Node<T>?
     
-    init(value: T) {
+    init(_ value: T) {
         self.value = value
     }
+    
+    func clearReferences(){
+        predecessorNode = nil
+        nextNode = nil
+    }
+}
+
+enum NodeType {
+    case first
+    case last
 }
