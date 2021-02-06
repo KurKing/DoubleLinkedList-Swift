@@ -34,7 +34,7 @@ class DoubleLinkedList<T>: List {
         } else if index == size {
             insertAtTheEnd(value)
         } else {
-            
+            insertInTheMiddle(value: value, at: index)
         }
         
         size += 1
@@ -57,7 +57,7 @@ class DoubleLinkedList<T>: List {
     
     //MARK: insertAtTheEnd
     private func insertAtTheEnd(_ value: T) {
-        guard tail != nil else {
+        if tail == nil {
             tail = Node(value)
             root?.nextNode = tail
             tail?.predecessorNode = root
@@ -88,6 +88,37 @@ class DoubleLinkedList<T>: List {
         }
     }
     
+    //MARK: insert in the middle
+    private func insertInTheMiddle(value: T, at index: Int) {
+        var node: Node<T>
+        
+        if index < size / 2 + 1{
+             
+            var counter = 0
+            node = root!
+            
+            while counter != index {
+                node = node.nextNode!
+                counter += 1
+            }
+        
+        } else {
+            var counter = size-1
+            node = tail!
+            
+            while counter != index {
+                node = node.predecessorNode!
+                counter -= 1
+            }
+        }
+        
+        let newNode = Node(value)
+        node.predecessorNode?.nextNode = newNode
+        newNode.predecessorNode = node.predecessorNode
+        newNode.nextNode = node
+        node.predecessorNode = newNode
+    }
+    
     //MARK: - Remove
     func remove(with value: T) {
         
@@ -109,7 +140,8 @@ class DoubleLinkedList<T>: List {
         return nil
     }
     
-    //MARK: - func toArray() -> [T] {
+    //MARK: - To array
+    /// return all values as array
     func toArray() -> [T] {
         guard var node = root else {
             return []
