@@ -1,11 +1,56 @@
 //
-//  DoubleLinkedList.swift
-//  DoubleLinkedList
+//  DublicateCode.swift
+//  Tests
 //
-//  Created by Oleksiy on 05.02.2021.
+//  Created by Oleksiy on 06.02.2021.
 //
 
 import Foundation
+
+/*
+ I can`t import all classes correct because it`s command line tool
+ So, I just dublicate code.
+ I know that it`s bad, but I can`t solve this problem
+ So, maybe someone can help me???
+*/
+
+class Node<T: Comparable> {
+    var value: T
+    
+    weak var predecessorNode: Node<T>?
+    var nextNode: Node<T>?
+    
+    init(_ value: T) {
+        self.value = value
+    }
+    
+    func clearReferences(){
+        predecessorNode = nil
+        nextNode = nil
+    }
+}
+
+enum NodeType {
+    case first
+    case last
+}
+
+protocol List {
+    associatedtype T: Comparable
+
+    func insert(value: T, at index: Int)
+    func insert(value: T)
+    
+    func remove(at index: Int)
+
+    func replace(at index: Int, with value: T)
+
+    func index(of value: T) -> Int?
+    
+    func toArray() -> [T]
+
+    var count: Int { get }
+}
 
 class DoubleLinkedList<T: Comparable>: List {
     
@@ -201,3 +246,4 @@ class DoubleLinkedList<T: Comparable>: List {
         return array
     }
 }
+

@@ -29,6 +29,7 @@ print(list.toArray())
 
 print("###REPLACE###")
 list.replace(at: 0, with: 14)
+list.replace(at: list.count, with: 14)
 print(list.toArray())
 
 print("###REMOVE###")
