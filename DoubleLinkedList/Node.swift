@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Node<T> {
+class Node<T: Comparable> {
     var value: T
     
     weak var predecessorNode: Node<T>?

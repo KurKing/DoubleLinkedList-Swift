@@ -8,13 +8,12 @@
 import Foundation
 
 protocol List {
-    associatedtype T
+    associatedtype T: Comparable
 
     func insert(value: T, at index: Int)
     func insert(value: T)
-
-    func remove(with value: T)
-    func remove(by index: Int)
+    
+    func remove(at index: Int)
 
     func replace(at index: Int, with value: T)
 

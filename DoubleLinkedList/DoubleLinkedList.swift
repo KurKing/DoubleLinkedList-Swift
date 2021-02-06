@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DoubleLinkedList<T>: List {
+class DoubleLinkedList<T: Comparable>: List {
     
     typealias T = T
     
@@ -61,7 +61,7 @@ class DoubleLinkedList<T>: List {
             tail = Node(value)
             root?.nextNode = tail
             tail?.predecessorNode = root
-        
+            
             return
         }
         
@@ -90,10 +90,20 @@ class DoubleLinkedList<T>: List {
     
     //MARK: insert in the middle
     private func insertInTheMiddle(value: T, at index: Int) {
+        let nodeAfterInsertedNode = findNode(with: index)
+        
+        let newNode = Node(value)
+        nodeAfterInsertedNode.predecessorNode?.nextNode = newNode
+        newNode.predecessorNode = nodeAfterInsertedNode.predecessorNode
+        newNode.nextNode = nodeAfterInsertedNode
+        nodeAfterInsertedNode.predecessorNode = newNode
+    }
+    
+    private func findNode(with index: Int) -> Node<T> {
         var node: Node<T>
         
         if index < size / 2 + 1{
-             
+            
             var counter = 0
             node = root!
             
@@ -101,7 +111,7 @@ class DoubleLinkedList<T>: List {
                 node = node.nextNode!
                 counter += 1
             }
-        
+            
         } else {
             var counter = size-1
             node = tail!
@@ -112,32 +122,63 @@ class DoubleLinkedList<T>: List {
             }
         }
         
-        let newNode = Node(value)
-        node.predecessorNode?.nextNode = newNode
-        newNode.predecessorNode = node.predecessorNode
-        newNode.nextNode = node
-        node.predecessorNode = newNode
+        return node
     }
     
     //MARK: - Remove
-    func remove(with value: T) {
-        
-        size -= 1
+    /// remove first or last element
+    func remove(_ type: NodeType) {
+        switch type {
+        case .first:
+            remove(at: 0)
+        case .last:
+            remove(at: size)
+        }
     }
-    
-    func remove(by index: Int) {
+    /// remove element with specified index
+    func remove(at index: Int) {
+        if index == 0 {
+            let nodeToRemove = root
+            root = root?.nextNode
+            nodeToRemove?.clearReferences()
+        } else if index == size {
+            let nodeToRemove = tail
+            tail = tail?.predecessorNode
+            tail?.nextNode = nil
+            nodeToRemove?.clearReferences()
+        } else {
+            let nodeToRemove = findNode(with: index)
+            
+            nodeToRemove.predecessorNode?.nextNode = nodeToRemove.nextNode
+            nodeToRemove.nextNode?.predecessorNode = nodeToRemove.predecessorNode
+        }
         
         size -= 1
     }
     
     //MARK: - Replace
+    /// replace element value at specified index with new one
     func replace(at index: Int, with value: T) {
-        
+        findNode(with: index).value = value
     }
     
     //MARK: - Index
+    /// return index of element with specified value; if element doesn't exist return nil
     func index(of value: T) -> Int? {
-        return nil
+        var counter = 0
+        guard var node = root else {
+            return nil
+        }
+        
+        while node.value != value {
+            guard  let nextNode = node.nextNode else {
+                return nil
+            }
+            node = nextNode
+            counter += 1
+        }
+        
+        return counter
     }
     
     //MARK: - To array
