@@ -117,8 +117,12 @@ class DoubleLinkedList<T: Comparable>: List {
             node = tail!
             
             while counter != index {
-                node = node.predecessorNode!
-                counter -= 1
+                if let predecessorNode = node.predecessorNode{
+                    node = predecessorNode
+                    counter -= 1
+                } else {
+                    return node
+                }
             }
         }
         
@@ -137,6 +141,11 @@ class DoubleLinkedList<T: Comparable>: List {
     }
     /// remove element with specified index
     func remove(at index: Int) {
+        if index > size || index < 0 {
+            print("Invalid index for insertion! Index: \(index); Current list size: \(size)")
+            return
+        }
+        
         if index == 0 {
             let nodeToRemove = root
             root = root?.nextNode

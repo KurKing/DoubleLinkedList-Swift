@@ -9,50 +9,24 @@ import Foundation
 
 let list = DoubleLinkedList<Int>()
 
-list.insert(value: 1)
-list.insert(value: 2)
-list.insert(value: 3)
+let startCalculationTime = Date().timeIntervalSinceReferenceDate
 
-list.insert(value: 4, as: .first)
-list.insert(value: 5, as: .first)
-list.insert(value: 6, as: .first)
+list.insert(value: 0)
+list.insert(value: 0)
+list.insert(value: 0)
+for _ in 0..<100000 {
+    list.insert(value: 0, at: Int.random(in: 0...list.count))
+}
 
-list.insert(value: 8, at: 2)
-list.insert(value: 9, at: 2)
-list.insert(value: 10, at: 2)
+let endCalculationTime = Date().timeIntervalSinceReferenceDate
+print(endCalculationTime-startCalculationTime)
 
-list.insert(value: 11, at: 7)
-list.insert(value: 12, at: 7)
-list.insert(value: 13, at: 7)
 
-print(list.toArray())
+let startCalculationTime2 = Date().timeIntervalSinceReferenceDate
 
-print("###REPLACE###")
-list.replace(at: 0, with: 14)
-list.replace(at: list.count, with: 14)
-print(list.toArray())
+for _ in 0..<100000 {
+    list.remove(at: Int.random(in: 0..<list.count))
+}
 
-print("###REMOVE###")
-
-list.remove(at: 3)
-print(list.toArray())
-
-list.remove(.first)
-print(list.toArray())
-
-list.remove(.last)
-print(list.toArray())
-
-print("###INSERTION 2###")
-
-list.insert(value: 111, as: .first)
-list.insert(value: 222, as: .last)
-
-list.insert(value: 333, at: 5)
-
-print(list.toArray())
-
-print(list.index(of: 111))
-print(list.index(of: 222))
-print(list.index(of: 333))
-print(list.index(of: 444))
+let endCalculationTime2 = Date().timeIntervalSinceReferenceDate
+print(endCalculationTime2-startCalculationTime2)

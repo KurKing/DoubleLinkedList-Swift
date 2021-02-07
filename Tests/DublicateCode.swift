@@ -144,6 +144,7 @@ class DoubleLinkedList<T: Comparable>: List {
         nodeAfterInsertedNode.predecessorNode = newNode
     }
     
+    //MARK: findNode
     private func findNode(with index: Int) -> Node<T> {
         var node: Node<T>
         
@@ -182,6 +183,12 @@ class DoubleLinkedList<T: Comparable>: List {
     }
     /// remove element with specified index
     func remove(at index: Int) {
+        
+        if index > size || index < 0 {
+            print("Invalid index for insertion! Index: \(index); Current list size: \(size)")
+            return
+        }
+        
         if index == 0 {
             let nodeToRemove = root
             root = root?.nextNode
